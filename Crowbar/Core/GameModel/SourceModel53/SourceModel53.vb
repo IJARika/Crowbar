@@ -360,7 +360,7 @@ Public Class SourceModel53
 
 		mdlFile.ReadHitboxSets()
 
-		'mdlFile.ReadBoneTableByName()
+		mdlFile.ReadBoneTableByName()
 
 		If Me.theMdlFileData.localAnimationCount > 0 Then
 			Try
@@ -382,14 +382,15 @@ Public Class SourceModel53
 		mdlFile.ReadFlexControllers()
 		'NOTE: This must be after flex descs are read so that flex desc usage can be saved in flex desc.
 		mdlFile.ReadFlexRules()
-		'mdlFile.ReadIkChains()
+		mdlFile.ReadIkChains()
 		'mdlFile.ReadIkLocks()
 		'mdlFile.ReadMouths()
-		'mdlFile.ReadPoseParamDescs()
+		mdlFile.ReadPoseParamDescs()
 		mdlFile.ReadModelGroups()
 		''TODO: Me.ReadAnimBlocks()
 		''TODO: Me.ReadAnimBlockName()
 
+		'NOTE: V53 MDLs shouldn't really have more than one texture path due to how RPak materials work.
 		mdlFile.ReadTexturePaths()
 		'NOTE: ReadTextures must be after ReadTexturePaths(), so it can compare with the texture paths.
 		mdlFile.ReadTextures()
@@ -397,8 +398,8 @@ Public Class SourceModel53
 
 		mdlFile.ReadKeyValues()
 
-		'mdlFile.ReadBoneTransforms()
-		'mdlFile.ReadLinearBoneTable()
+		mdlFile.ReadBoneTransforms()
+		mdlFile.ReadLinearBoneTable()
 
 		''TODO: ReadLocalIkAutoPlayLocks()
 		'mdlFile.ReadFlexControllerUis()
@@ -417,6 +418,8 @@ Public Class SourceModel53
 			Me.ReadVvdFile_Internal()
 		End If
 
+		
+
 		mdlFile.ReadUnreadBytes()
 
 		' Post-processing.
@@ -429,7 +432,7 @@ Public Class SourceModel53
 			Me.thePhyFileDataGeneric = New SourcePhyFileData()
 		End If
 
-		Dim phyFile As New SourcePhyFile(Me.theInputFileReader, Me.thePhyFileDataGeneric, Me.theMdlFileData.vtxOffset)
+		Dim phyFile As New SourcePhyFile(Me.theInputFileReader, Me.thePhyFileDataGeneric, Me.theMdlFileData.phyOffset + Me.theMdlFileData.phySize)
 
 		phyFile.ReadSourcePhyHeader()
 		If Me.thePhyFileDataGeneric.solidCount > 0 Then
@@ -492,7 +495,7 @@ Public Class SourceModel53
 			'End If
 			qcFile.WriteBodyGroupCommand()
 			'TODO: LOD option "replacebone" is wrong because bone.flags is read-in incorrectly.
-			'qcFile.WriteGroup("lod", AddressOf qcFile.WriteGroupLod, False, False)
+			qcFile.WriteGroup("lod", AddressOf qcFile.WriteGroupLod, False, False)
 
 			qcFile.WriteSurfacePropCommand()
 			qcFile.WriteJointSurfacePropCommand()
@@ -501,7 +504,7 @@ Public Class SourceModel53
 			qcFile.WriteIllumPositionCommand()
 
 			qcFile.WriteEyePositionCommand()
-			qcFile.WriteMaxEyeDeflectionCommand()
+			'qcFile.WriteMaxEyeDeflectionCommand()
 			qcFile.WriteNoForcedFadeCommand()
 			qcFile.WriteForcePhonemeCrossfadeCommand()
 
@@ -769,11 +772,11 @@ Public Class SourceModel53
 		mdlFile.WriteInternalMdlFileName(internalMdlFileName)
 	End Sub
 
-	Protected Overrides Sub WriteAniFileNameToMdlFile(ByVal internalAniFileName As String)
-		Dim mdlFile As New SourceMdlFile53(Me.theOutputFileBinaryWriter, Me.theMdlFileData)
+	'Protected Overrides Sub WriteAniFileNameToMdlFile(ByVal internalAniFileName As String)
+	'	Dim mdlFile As New SourceMdlFile53(Me.theOutputFileBinaryWriter, Me.theMdlFileData)
 
-		mdlFile.WriteInternalAniFileName(internalAniFileName)
-	End Sub
+		'mdlFile.WriteInternalAniFileName(internalAniFileName)
+	'End Sub
 
 #End Region
 

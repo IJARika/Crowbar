@@ -32,6 +32,22 @@ Public Class SourceMdlAnimation
 	'	short				nextoffset;
 	Public nextSourceMdlAnimationOffset As Short
 
+	'MDL 53 stuff
+	Public TranslationScale As Double
+	Public Flags2 As Byte
+	Public Flags3 As Byte
+	'Public OffsetX As Short
+	'Public OffsetY As Short
+	'Public OffsetZ As Short
+	'Public OffsetL As Short
+	Public TranslationX As SourceFloat16bits
+	Public TranslationY As SourceFloat16bits
+	Public TranslationZ As SourceFloat16bits
+	Public ScaleX As SourceFloat16bits
+	Public ScaleY As SourceFloat16bits
+	Public ScaleZ As SourceFloat16bits
+	Public nextTitanfall2MdlAnimationOffset As Integer
+
 
 	' Values for the field, flags:
 	'#define STUDIO_ANIM_RAWPOS	0x01 // Vector48
@@ -46,6 +62,9 @@ Public Class SourceMdlAnimation
 	Public Const STUDIO_ANIM_ANIMROT As Integer = &H8
 	Public Const STUDIO_ANIM_DELTA As Integer = &H10
 	Public Const STUDIO_ANIM_RAWROT2 As Integer = &H20
+	'MDL 53 values for flags:
+	Public Const MDL53_ANIM_TRANSLATION As Integer = &H2
+	Public Const MDL53_ANIM_ROTATION As Integer = &H4
 
 
 	' Do not use union, because it will have to rely on size of a .NET Framework data type.
